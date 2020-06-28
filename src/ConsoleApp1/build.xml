@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+       
+    </PropertyGroup>
+
+    <Target Name="Build" DependsOnTargets="CopyOutput" />
+ 
+
+    <Target Name="CopyOutput">
+        <ItemGroup>
+            <PackagedFiles Include="C:\code\personal\jenkinstest\msbuildTest\src\ConsoleApp1\bin\Release\*.*"/>
+        </ItemGroup>
+        <Copy SourceFiles="@(PackagedFiles)" DestinationFiles="C:\build\"/>
+    </Target>
+</Project>
