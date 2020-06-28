@@ -62,7 +62,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <!-- <HintPath>..\Microsoft\.NETFramework\v4.6.1\System.dll</HintPath> -->
@@ -102,25 +102,18 @@
   <PropertyGroup>
     <RootPath>$(MSBuildProjectDirectory)</RootPath>
     <Root>$(SolutionDir)</Root>
-	<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
   </PropertyGroup>
-   <Target Name="LoadNuGetPackages">
+  <Target Name="LoadNuGetPackages">
     <Message Importance="high" Text=" $(RootPath) ,root:  $(Root) , $(SolutionPath),$(SolutionDir),$(SolutionFileName)" />
     <Exec Command="$(RootPath)\.nuget\nuget.exe restore ConsoleApp1.sln" />
   </Target>
-   
   <Target Name="PublishToFileSystem" DependsOnTargets="LoadNuGetPackages">
-    <Error Condition="'$(PublishDestination)'==''"
-           Text="The PublishDestination property must be set to the intended publishing destination." />
-    <MakeDir Condition="!Exists($(PublishDestination))"
-             Directories="$(PublishDestination)" />
-
+    <Error Condition="'$(PublishDestination)'==''" Text="The PublishDestination property must be set to the intended publishing destination." />
+    <MakeDir Condition="!Exists($(PublishDestination))" Directories="$(PublishDestination)" />
     <ItemGroup>
-        <PublishFiles Include="$(RootPath)\bin\$(Configuration)\**\*.*" />
+      <PublishFiles Include="$(RootPath)\bin\$(Configuration)\**\*.*" />
     </ItemGroup>
-
-    <Copy SourceFiles="@(PublishFiles)"
-          DestinationFiles="@(PublishFiles->'$(PublishDestination)\%(RecursiveDir)%(Filename)%(Extension)')"
-          SkipUnchangedFiles="True" />
-</Target>
+    <Copy SourceFiles="@(PublishFiles)" DestinationFiles="@(PublishFiles->'$(PublishDestination)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="True" />
+  </Target>
 </Project>
